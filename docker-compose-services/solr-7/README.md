@@ -21,6 +21,29 @@ The documented ApacheSolr integration with DDEV assumes version 8 of Solr, but t
 2. Identify your Solr volume -- it will be named with the pattern `ddev-example_solr`
 3. Use `docker volume rm [volume name]` to remove the volume
 
+## Installation in Drupal
+
+1. You may need to install the relevant Drupal requirements: `ddev composer require drush/drush drupal/search_api_solr`
+2. Enable the `search_api_solr` module either using the web interface or `ddev drush en -y search_api_solr`
+3. Create a Search API server at `admin/config/search/search-api` -> "Add server"
+4. Create a server with the following settings
+    * Set "Server name" to anything you want. Maybe `ddev-solr-server`.
+    * Set "Backend" to `Solr`
+    * Configure Solr backend
+        * Set "Solr Connector" to `Standard`
+        * Set "Solr host" to `solr`
+        * Set "solr core" to `dev`
+        * Under "Advanced server configuration" set the "solr.install.dir" to `/opt/solr`.
+5. `ddev restart`
+
+## Outdated Solr config files
+
+If you get a message about Solr having outdated config files, you need to update the included Solr config files.
+
+1. Click "Get config.zip" on the server page
+2. Unzip the files, and put the config files into `.ddev/solr/conf/`
+3. Run `ddev restart`
+
 ## Differences between default `docker-compose.solr.yaml`
 
 If you don't want to follow the installation steps above, you can make these changes manually:
